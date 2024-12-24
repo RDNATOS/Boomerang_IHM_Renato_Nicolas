@@ -12,6 +12,7 @@
 sysinfo.txt
 # Unity3D generated meta files
 *.pidb.meta
+*shadercompiler-UnityShaderCompiler.exe*.log
 
 ###
 # VS/MD solution and project files
@@ -27,6 +28,7 @@ sysinfo.txt
 *.userprefs
 *.pidb
 .DS_Store
+.vsconfig
 
 ###
 # OS generated
