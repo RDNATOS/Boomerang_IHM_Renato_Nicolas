@@ -4,7 +4,7 @@ using UnityEngine.EventSystems;
 public class TitleBar : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform panelRectTransform; // the plane (explorer window)
-    private Canvas canvas; // canvas
+    private Canvas canvas;
     private Vector2 dragOffset;
 
     private void Awake()
@@ -28,17 +28,17 @@ public class TitleBar : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log("Drag Started on TitleBar");
+        // Debug.Log("Drag Started on TitleBar");
 
         //offset positions between mouse and panel
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            panelRectTransform,
+            panelRectTransform.parent as RectTransform,
             eventData.position,
             canvas.worldCamera,
             out Vector2 localMousePosition
         );
 
-        dragOffset = panelRectTransform.anchoredPosition;
+        dragOffset = panelRectTransform.anchoredPosition - localMousePosition; ;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -56,12 +56,12 @@ public class TitleBar : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         // Update the panel's anchoredPosition
         panelRectTransform.anchoredPosition = localMousePosition + dragOffset;
 
-        Debug.Log($"Dragging. New Position: {panelRectTransform.anchoredPosition}");
+        // Debug.Log($"Dragging. New Position: {panelRectTransform.anchoredPosition}");
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        Debug.Log("Drag Ended");
+        // Debug.Log("Drag Ended");
         EventSystem.current.SetSelectedGameObject(null); // resets the selection for new drags
     }
 }
