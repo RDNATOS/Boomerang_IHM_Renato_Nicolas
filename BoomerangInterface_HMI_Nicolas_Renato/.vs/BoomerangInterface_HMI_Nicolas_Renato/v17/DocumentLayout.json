@@ -3,7 +3,15 @@
   "WorkspaceRootPath": "C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FB753E27-B813-D262-DD17-9AFDF1C87D55}|Assembly-CSharp.csproj|c:\\users\\linin\\desktop\\renato\\cy tech\\5eme annee\\hmi\\boomerang_hmi_nicolas_renato\\boomeranginterface_hmi_nicolas_renato\\assets\\scripts\\titlebarscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{FB753E27-B813-D262-DD17-9AFDF1C87D55}|Assembly-CSharp.csproj|c:\\users\\linin\\desktop\\renato\\cy tech\\5eme annee\\hmi\\boomerang_hmi_nicolas_renato\\boomeranginterface_hmi_nicolas_renato\\assets\\scripts\\foldermanaferscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB753E27-B813-D262-DD17-9AFDF1C87D55}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\foldermanaferscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB753E27-B813-D262-DD17-9AFDF1C87D55}|Assembly-CSharp.csproj|C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\assets\\scripts\\foldercreationsscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FB753E27-B813-D262-DD17-9AFDF1C87D55}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\foldercreationsscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FB753E27-B813-D262-DD17-9AFDF1C87D55}|Assembly-CSharp.csproj|C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\assets\\scripts\\titlebarscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{FB753E27-B813-D262-DD17-9AFDF1C87D55}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\titlebarscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
@@ -27,6 +35,31 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "FolderManaferScript.cs",
+              "DocumentMoniker": "C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\Assets\\Scripts\\FolderManaferScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\FolderManaferScript.cs",
+              "ToolTip": "C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\Assets\\Scripts\\FolderManaferScript.cs",
+              "RelativeToolTip": "Assets\\Scripts\\FolderManaferScript.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAABMAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-07T20:29:02.009Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FolderCreationsScript.cs",
+              "DocumentMoniker": "C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\Assets\\Scripts\\FolderCreationsScript.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\FolderCreationsScript.cs",
+              "ToolTip": "C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\Assets\\Scripts\\FolderCreationsScript.cs",
+              "RelativeToolTip": "Assets\\Scripts\\FolderCreationsScript.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-07T14:39:09.653Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "TitleBarScript.cs",
               "DocumentMoniker": "C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\Assets\\Scripts\\TitleBarScript.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\TitleBarScript.cs",
@@ -34,12 +67,11 @@
               "RelativeToolTip": "Assets\\Scripts\\TitleBarScript.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAqwAcAAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-05T16:03:42.977Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-05T16:03:42.977Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "DraggablePanelScript.cs",
               "DocumentMoniker": "C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\Assets\\Scripts\\DraggablePanelScript.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\DraggablePanelScript.cs",
@@ -51,7 +83,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "ExplorerScript.cs",
               "DocumentMoniker": "C:\\Users\\linin\\Desktop\\RENATO\\CY Tech\\5eme annee\\HMI\\Boomerang_HMI_Nicolas_Renato\\BoomerangInterface_HMI_Nicolas_Renato\\Assets\\Scripts\\ExplorerScript.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\ExplorerScript.cs",
@@ -59,8 +91,7 @@
               "RelativeToolTip": "Assets\\Scripts\\ExplorerScript.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAABUAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T15:15:31.839Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-01-03T15:15:31.839Z"
             }
           ]
         }
