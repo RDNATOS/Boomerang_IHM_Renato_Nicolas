@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 
 
-public class ExplorerScript : MonoBehaviour
+public class Explorer : MonoBehaviour
 {
     private bool explorerOpened = false;
     [SerializeField] private GameObject explorerWindowObject;

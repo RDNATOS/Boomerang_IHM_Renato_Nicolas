@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class TitleBarScript : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class TitleBar : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private RectTransform panelRectTransform; // the plane (explorer window)
     private Canvas canvas; // canvas
