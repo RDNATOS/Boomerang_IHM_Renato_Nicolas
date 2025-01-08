@@ -34,11 +34,11 @@ public class TitleBar : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             panelRectTransform.parent as RectTransform,
             eventData.position,
-            canvas.worldCamera,
+            null,
             out Vector2 localMousePosition
         );
 
-        dragOffset = panelRectTransform.anchoredPosition - localMousePosition; ;
+        dragOffset = panelRectTransform.anchoredPosition - localMousePosition;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -49,7 +49,7 @@ public class TitleBar : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDrag
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             panelRectTransform.parent as RectTransform,
             eventData.position,
-            canvas.worldCamera,
+            null,
             out Vector2 localMousePosition
         );
 
