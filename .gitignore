@@ -32,7 +32,9 @@ sysinfo.txt
 *.pidb
 .DS_Store
 .vsconfig
+# VSCode personnal configuration
 .vs
+.vscode
 
 ###
 # OS generated
