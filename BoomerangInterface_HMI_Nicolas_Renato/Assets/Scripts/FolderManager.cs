@@ -11,6 +11,9 @@ public class FolderManager : MonoBehaviour
     private static Dictionary<string, Folder> globalFolders = new Dictionary<string, Folder>();
     private static Dictionary<string, File> globalFiles = new Dictionary<string, File>();
 
+    private Dictionary<string, string> parentMap = new Dictionary<string, string>();
+    private string currentFolderName = null;
+
     public void AddFolder(string folderName)
     {
         if (!globalFolders.ContainsKey(folderName))
@@ -77,6 +80,8 @@ public class FolderManager : MonoBehaviour
         {
             Debug.Log($"Folder clicked: {folderName}");
 
+            currentFolderName = folderName;
+
             foreach (Transform child in contentTransform)
             {
                 Destroy(child.gameObject);
@@ -108,6 +113,8 @@ public class FolderManager : MonoBehaviour
                 parentFolder.AddSubFolder(newSubFolder);
 
                 globalFolders.Add(subFolderName, newSubFolder);
+
+                parentMap[subFolderName] = parentFolderName;
 
                 Debug.Log($"Subfolder '{subFolderName}' added to '{parentFolderName}'.");
             }
@@ -151,6 +158,8 @@ public class FolderManager : MonoBehaviour
 
     public void ShowRoot()
     {
+        currentFolderName = null;
+
         foreach (Transform child in contentTransform)
         {
             Destroy(child.gameObject);
@@ -182,6 +191,28 @@ public class FolderManager : MonoBehaviour
             {
                 CreateFileUI(kvp.Value);
             }
+        }
+    }
+
+    public void OnBackButtonClick()
+    {
+        if (string.IsNullOrEmpty(currentFolderName))
+        {
+            Debug.Log("Root, do nothing.");
+            return;
+        }
+
+        if (!parentMap.ContainsKey(currentFolderName))
+        {
+            Debug.Log("OnBackButtonClick => No parent => ShowRoot().");
+            ShowRoot();
+        }
+        else
+        {
+            string parentName = parentMap[currentFolderName];
+            Debug.Log($"OnBackButtonClick => currentFolder = {currentFolderName}, parent = {parentName}");
+
+            OnFolderClick(parentName);
         }
     }
 
