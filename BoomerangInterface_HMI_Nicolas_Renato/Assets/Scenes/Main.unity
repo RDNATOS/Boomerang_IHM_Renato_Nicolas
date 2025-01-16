@@ -2005,7 +2005,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c98db66e7848f0547a9f151e5a620b8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  folderPrefab: {fileID: 3384769806911884152, guid: 8af59876c819a3b4fa7097b2398d6ea2, type: 3}
+  folderPrefab: {fileID: 3512536598545220154, guid: d397e86a72de53d4089d7b1d800dc178, type: 3}
+  filePrefab: {fileID: 0}
   contentTransform: {fileID: 1528650837}
 --- !u!4 &1546257632
 Transform:
