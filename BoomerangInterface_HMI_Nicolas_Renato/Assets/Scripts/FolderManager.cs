@@ -207,24 +207,19 @@ public class FolderManager : MonoBehaviour
         AddFolder("Games");
         AddFolder("Zika");
 
-        FileManager fileManager = GetComponent<FileManager>();
-        if (fileManager != null)
-        {
-            var fileNames = fileManager.GetRootFileNames();
-
-            foreach (string fileName in fileNames)
-            {
-                AddFile(fileName);
-            }
-        }
+        AddFile("GlobalFile.docx");
+        AddFile("Notes.docx");
+        AddFile("Mathematics Calculus.docx");
+        AddFile("02 10 2024.docx");
+        AddFile("Rapport de Stage.docx");
+        AddFile("Script for next video.docx");
+        AddFile("Ideas.docx");
 
         AddSubFolder("Projects", "2023");
         AddSubFolder("Projects", "2024");
 
         AddFileToFolder("Projects", "Report.docx");
         AddFileToFolder("Zika", "Model.docx");
-
-        AddFile("GlobalFile.docx");
         AddFileToFolder("Games", "GameDesign.docx");
 
         DisplayFolderHierarchy();
