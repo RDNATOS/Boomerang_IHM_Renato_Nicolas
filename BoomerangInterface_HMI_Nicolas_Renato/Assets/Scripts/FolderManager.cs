@@ -14,6 +14,13 @@ public class FolderManager : MonoBehaviour
     private Dictionary<string, string> parentMap = new Dictionary<string, string>();
     private string currentFolderName = null;
 
+    //boomerang effect
+    private bool isDragging = false; 
+    private RectTransform rectTransform; // file's rec transform
+    private Vector3 offset; // difference between mouse and file position
+    private Vector3 initialPosition; 
+
+
     public void AddFolder(string folderName)
     {
         if (!globalFolders.ContainsKey(folderName))
@@ -72,7 +79,19 @@ public class FolderManager : MonoBehaviour
         {
             textComponent.text = file.Name;
         }
+
+        // component for mouse interaction
+        DraggableFile draggableFile = fileObject.AddComponent<DraggableFile>();
+
+        Button button = fileObject.GetComponent<Button>();
+        if (button != null)
+        {
+            button.onClick.AddListener(() => OnFileClick(file.Name));
+        }
     }
+
+
+
 
     private void OnFolderClick(string folderName)
     {
@@ -232,6 +251,51 @@ public class FolderManager : MonoBehaviour
         }
     }
 
+    private void OnFileClick(string fileName)
+    {
+        // when the file is clicked
+        if (globalFiles.TryGetValue(fileName, out File file))
+        {
+            Debug.Log($"File clicked: {file.Name}");
+
+            OpenFile(file);
+        }
+        else
+        {
+            Debug.LogError($"File '{fileName}' not found in globalFiles.");
+        }
+    }
+
+    private void OpenFile(File file)
+    {
+        
+        Debug.Log($"Opening file: {file.Name}");
+    }
+
+
+    private void OnPointerDown(UnityEngine.EventSystems.PointerEventData eventData)
+    {
+        isDragging = true;
+
+        initialPosition = rectTransform.position;
+
+        //  screen space position (eventData.position) to world space
+        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
+
+        // offset between the world position of the file and the mouse position
+        offset = initialPosition - mouseWorldPosition;
+
+        // z-value of the offset is zero to avoid issues with 3D space
+        offset.z = 0;
+    }
+
+
+    private void OnPointerUp()
+    {
+        isDragging = false;
+    }
+
+
     void Start()
     {
         AddFolder("Projects");
@@ -255,4 +319,24 @@ public class FolderManager : MonoBehaviour
 
         DisplayFolderHierarchy();
     }
+
+    void Update()
+    {
+        if (isDragging)
+        {
+            // the file starts disappearing
+            rectTransform.localScale = Vector3.Lerp(rectTransform.localScale, new Vector3(1.2f, 1.2f, 1), Time.deltaTime * 10f);
+
+            //position of the file with the mouse position + the offset
+            Vector3 mousePosition = Input.mousePosition + offset;
+            rectTransform.position = mousePosition;
+
+            // the rotations follows the movement direction
+            Vector3 movementDirection = (mousePosition - initialPosition).normalized;
+            float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+            rectTransform.rotation = Quaternion.Euler(0, 0, angle + 90f);
+        }
+    }
+
+
 }
