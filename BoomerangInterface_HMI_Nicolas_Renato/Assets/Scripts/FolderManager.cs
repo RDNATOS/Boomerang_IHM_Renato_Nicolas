@@ -15,27 +15,10 @@ public class FolderManager : MonoBehaviour
     {
         if (!globalFolders.ContainsKey(folderName))
         {
-            GameObject folderObject = Instantiate(folderPrefab, contentTransform);
-            folderObject.name = folderName;
-
-            var textComponent = folderObject.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            if (textComponent != null)
-            {
-                textComponent.text = folderName;
-            }
-
-            Button button = folderObject.GetComponent<Button>();
-            if (button == null)
-            {
-                button = folderObject.AddComponent<Button>(); 
-            }
-
-            button.onClick.AddListener(() => OnFolderClick(folderName));
-
             Folder newFolder = new Folder(folderName);
             globalFolders.Add(folderName, newFolder);
 
-            Debug.Log($"Folder '{folderName}' created.");
+            Debug.Log($"Folder '{folderName}' created (data only).");
         }
         else
         {
@@ -50,20 +33,41 @@ public class FolderManager : MonoBehaviour
             File newFile = new File(fileName);
             globalFiles.Add(fileName, newFile);
 
-            GameObject fileObject = Instantiate(filePrefab, contentTransform);
-            fileObject.name = fileName;
-
-            var textComponent = fileObject.GetComponentInChildren<TMPro.TextMeshProUGUI>();
-            if (textComponent != null)
-            {
-                textComponent.text = fileName;
-            }
-
-            Debug.Log($"File '{fileName}' created.");
+            Debug.Log($"File '{fileName}' created (data only).");
         }
         else
         {
             Debug.LogWarning($"File '{fileName}' already exists globally.");
+        }
+    }
+
+    private void CreateFolderUI(Folder folder)
+    {
+        GameObject folderObject = Instantiate(folderPrefab, contentTransform);
+        folderObject.name = folder.Name;
+
+        var textComponent = folderObject.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        if (textComponent != null)
+        {
+            textComponent.text = folder.Name;
+        }
+
+        Button button = folderObject.GetComponent<Button>();
+        if (button == null)
+            button = folderObject.AddComponent<Button>();
+
+        button.onClick.AddListener(() => OnFolderClick(folder.Name));
+    }
+
+    private void CreateFileUI(File file)
+    {
+        GameObject fileObject = Instantiate(filePrefab, contentTransform);
+        fileObject.name = file.Name;
+
+        var textComponent = fileObject.GetComponentInChildren<TMPro.TextMeshProUGUI>();
+        if (textComponent != null)
+        {
+            textComponent.text = file.Name;
         }
     }
 
@@ -80,12 +84,12 @@ public class FolderManager : MonoBehaviour
 
             foreach (var subFolder in folder.SubFolders)
             {
-                AddFolder(subFolder.Name);
+                CreateFolderUI(subFolder);
             }
 
             foreach (var file in folder.Files)
             {
-                AddFile(file.Name);
+                CreateFileUI(file);
             }
         }
         else
@@ -102,6 +106,7 @@ public class FolderManager : MonoBehaviour
             {
                 Folder newSubFolder = new Folder(subFolderName);
                 parentFolder.AddSubFolder(newSubFolder);
+
                 globalFolders.Add(subFolderName, newSubFolder);
 
                 Debug.Log($"Subfolder '{subFolderName}' added to '{parentFolderName}'.");
@@ -144,7 +149,43 @@ public class FolderManager : MonoBehaviour
         }
     }
 
-    public void DisplayFolderHierarchy()
+    public void ShowRoot()
+    {
+        foreach (Transform child in contentTransform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        if (globalFolders.ContainsKey("Projects"))
+            CreateFolderUI(globalFolders["Projects"]);
+
+        if (globalFolders.ContainsKey("Games"))
+            CreateFolderUI(globalFolders["Games"]);
+
+        if (globalFolders.ContainsKey("Zika"))
+            CreateFolderUI(globalFolders["Zika"]);
+
+        foreach (var kvp in globalFiles)
+        {
+            bool isInSomeFolder = false;
+            foreach (var folderEntry in globalFolders)
+            {
+                Folder folder = folderEntry.Value;
+                if (folder.Files.Exists(file => file.Name == kvp.Key))
+                {
+                    isInSomeFolder = true;
+                    break;
+                }
+            }
+
+            if (!isInSomeFolder)
+            {
+                CreateFileUI(kvp.Value);
+            }
+        }
+    }
+
+    public void DisplayFolderHierarchy() // Debug
     {
         foreach (var folder in globalFolders.Values)
         {
@@ -165,6 +206,17 @@ public class FolderManager : MonoBehaviour
         AddFolder("Projects");
         AddFolder("Games");
         AddFolder("Zika");
+
+        FileManager fileManager = GetComponent<FileManager>();
+        if (fileManager != null)
+        {
+            var fileNames = fileManager.GetRootFileNames();
+
+            foreach (string fileName in fileNames)
+            {
+                AddFile(fileName);
+            }
+        }
 
         AddSubFolder("Projects", "2023");
         AddSubFolder("Projects", "2024");
