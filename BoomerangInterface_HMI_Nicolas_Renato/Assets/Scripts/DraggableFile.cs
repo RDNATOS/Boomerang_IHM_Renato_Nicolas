@@ -5,11 +5,11 @@ using System.Collections;
 public class DraggableFile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     public File LinkedFile;
-    
+
     [SerializeField] private BoomerangManager boomerang;
 
     [Header("Drag Settings")]
-    public float dragThreshold = 100f;
+    public float dragThreshold = 10f;
 
     public float rotationDuration = 1f;
 
@@ -35,6 +35,9 @@ public class DraggableFile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         hasTriggeredRotation = false;
 
         startDragPosition = eventData.position;
+
+        // Ativa o círculo ao iniciar o arrasto
+        boomerang?.ShowCircle(true);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -55,6 +58,8 @@ public class DraggableFile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         isDragging = false;
+
+        // Não desativa o círculo aqui! O BoomerangManager decide quando desativá-lo.
     }
 
     private IEnumerator RotateThenDisappear()
