@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class File : MonoBehaviour
+public class File
 {
     public string Name { get; private set; } 
     public Text FileNameText; // ref to the UI Text component for displaying the file name
