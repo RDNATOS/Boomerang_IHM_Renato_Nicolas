@@ -413,6 +413,4 @@ public class FolderManager : MonoBehaviour
             rectTransform.rotation = Quaternion.Euler(0, 0, angle + 90f);
         }
     }
-
-
 }

@@ -9,11 +9,11 @@ public class DraggableFile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [SerializeField] private BoomerangManager boomerang;
 
     [Header("Drag Settings")]
-    public float dragThreshold = 10f;
+    public float dragThreshold = 32f;
 
-    public float rotationDuration = 1f;
+    public float rotationDuration = 0.5f;
 
-    public float rotationSpeed = 360f;
+    public float rotationSpeed = 1000f;
 
     private RectTransform rectTransform;
     private Vector2 startDragPosition;
@@ -35,9 +35,6 @@ public class DraggableFile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         hasTriggeredRotation = false;
 
         startDragPosition = eventData.position;
-
-        // Ativa o círculo ao iniciar o arrasto
-        boomerang?.ShowCircle(true);
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -58,12 +55,21 @@ public class DraggableFile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         isDragging = false;
-
-        // Não desativa o círculo aqui! O BoomerangManager decide quando desativá-lo.
     }
 
     private IEnumerator RotateThenDisappear()
     {
+        if (LinkedFile == null)
+            Debug.LogError("[DraggableFile] LinkedFile is null!");
+
+        if (boomerang == null)
+            Debug.LogError("[DraggableFile] Boomerang is null!");
+
+        if (LinkedFile != null && boomerang != null)
+        {
+            boomerang.AddFile(LinkedFile);
+        }
+
         float elapsedTime = 0f;
 
         while (elapsedTime < rotationDuration)
@@ -75,11 +81,6 @@ public class DraggableFile : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             rectTransform.Rotate(0f, 0f, angleThisFrame);
 
             yield return null;
-        }
-
-        if (LinkedFile != null && boomerang != null)
-        {
-            boomerang.AddFile(LinkedFile);
         }
 
         Destroy(gameObject);
