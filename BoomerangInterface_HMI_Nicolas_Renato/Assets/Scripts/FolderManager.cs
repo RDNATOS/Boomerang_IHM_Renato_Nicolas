@@ -56,6 +56,9 @@ public class FolderManager : MonoBehaviour
         GameObject folderObject = Instantiate(folderPrefab, contentTransform);
         folderObject.name = folder.Name;
 
+        FolderUI folderUI = folderObject.AddComponent<FolderUI>();
+        folderUI.folderName = folder.Name;
+
         var textComponent = folderObject.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         if (textComponent != null)
         {
@@ -82,6 +85,7 @@ public class FolderManager : MonoBehaviour
 
         // component for mouse interaction
         DraggableFile draggableFile = fileObject.AddComponent<DraggableFile>();
+        draggableFile.LinkedFile = file;
 
         Button button = fileObject.GetComponent<Button>();
         if (button != null)
@@ -89,9 +93,6 @@ public class FolderManager : MonoBehaviour
             button.onClick.AddListener(() => OnFileClick(file.Name));
         }
     }
-
-
-
 
     private void OnFolderClick(string folderName)
     {
@@ -295,6 +296,83 @@ public class FolderManager : MonoBehaviour
         isDragging = false;
     }
 
+    public void AddMultipleFilesToFolder(string folderName, List<File> files)
+    {
+        if (globalFolders.TryGetValue(folderName, out Folder folder))
+        {
+            foreach (File f in files)
+            {
+                if (!folder.Files.Contains(f))
+                {
+                    folder.Files.Add(f);
+                    Debug.Log($"[FolderManager] File '{f.Name}' moved into '{folderName}'.");
+                }
+            }
+        }
+        else
+        {
+            Debug.LogError($"[FolderManager] Folder '{folderName}' not found.");
+        }
+    }
+
+    public void MoveMultipleFilesToCurrentFolder(List<File> files)
+    {
+        if (string.IsNullOrEmpty(currentFolderName))
+        {
+            Debug.LogWarning("[FolderManager] No current folder selected, can't move files.");
+            return;
+        }
+
+        if (!globalFolders.ContainsKey(currentFolderName))
+        {
+            Debug.LogError($"[FolderManager] Current folder '{currentFolderName}' not found in globalFolders!");
+            return;
+        }
+
+        Folder currentFolder = globalFolders[currentFolderName];
+
+        foreach (File f in files)
+        {
+            foreach (var kvp in globalFolders)
+            {
+                Folder possibleOldFolder = kvp.Value;
+                if (possibleOldFolder.Files.Contains(f))
+                {
+                    possibleOldFolder.Files.Remove(f);
+                    break;
+                }
+            }
+
+            if (!currentFolder.Files.Contains(f))
+            {
+                currentFolder.Files.Add(f);
+            }
+        }
+
+        Debug.Log($"[FolderManager] Moved {files.Count} files into '{currentFolderName}'.");
+
+        RefreshCurrentFolderView();
+    }
+
+    private void RefreshCurrentFolderView()
+    {
+        foreach (Transform child in contentTransform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        if (globalFolders.TryGetValue(currentFolderName, out Folder folder))
+        {
+            foreach (var subFolder in folder.SubFolders)
+            {
+                CreateFolderUI(subFolder);
+            }
+            foreach (var file in folder.Files)
+            {
+                CreateFileUI(file);
+            }
+        }
+    }
 
     void Start()
     {
