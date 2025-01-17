@@ -1,20 +1,77 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BoomerangManager : MonoBehaviour
 {
     public List<File> boomerangFiles = new List<File>();
 
     [SerializeField] private FolderManager folderManager;
-    [SerializeField] private GameObject blueCircle;
 
-    private void Start()
+    private Image boomerangImage;
+    private Button boomerangButton;
+
+    private void Awake()
     {
+        boomerangImage = GetComponent<Image>();
+        boomerangButton = GetComponent<Button>();
+
+        if (boomerangButton != null)
+        {
+            boomerangButton.onClick.AddListener(OnBoomerangClick);
+        }
+        else
+        {
+            Debug.LogWarning("[BoomerangManager] No Button found on boomerang object!");
+        }
+    }
+
+    private void OnBoomerangClick()
+    {
+        if (boomerangFiles.Count == 0)
+        {
+            Debug.Log("[Boomerang] No files to move.");
+            return;
+        }
+
+        if (folderManager == null)
+        {
+            Debug.LogWarning("[Boomerang] FolderManager is not assigned.");
+            return;
+        }
+
+        string currentFolderName = folderManager.GetCurrentFolderName(); 
+
+        if (string.IsNullOrEmpty(currentFolderName))
+        {
+            foreach (var file in boomerangFiles)
+            {
+                folderManager.RemoveFileFromAnyFolder(file);
+
+                folderManager.AddFileToRoot(file);
+            }
+
+            Debug.Log($"[Boomerang] Moved {boomerangFiles.Count} files to the root.");
+            boomerangFiles.Clear();
+
+            folderManager.ShowRoot();
+        }
+        else
+        {
+            folderManager.AddMultipleFilesToFolder(currentFolderName, boomerangFiles);
+
+            boomerangFiles.Clear();
+            
+            folderManager.RefreshCurrentFolderView();
+        }
+
         UpdateBoomerangUI();
     }
 
     public void AddFile(File file)
     {
+        folderManager.RemoveFileFromAnyFolder(file);
+        
         if (!boomerangFiles.Contains(file))
         {
             boomerangFiles.Add(file);
@@ -30,18 +87,18 @@ public class BoomerangManager : MonoBehaviour
 
     public void ShowCircle(bool show)
     {
-        if (blueCircle != null)
-        {
-            blueCircle.SetActive(show);
-        }
+        if (boomerangImage == null) return;
+
+        Color c = boomerangImage.color;
+        c.a = show ? 1f : 0f;
+        boomerangImage.color = c;
     }
 
     private void UpdateBoomerangUI()
     {
-        bool hasFiles = HasFilesInBoomerang();
-        ShowCircle(hasFiles);
+        ShowCircle(HasFilesInBoomerang());
     }
-
+    /*
     public void MoveAllFilesToFolder(string folderName)
     {
         if (folderManager == null)
@@ -63,4 +120,5 @@ public class BoomerangManager : MonoBehaviour
         boomerangFiles.Clear();
         UpdateBoomerangUI();
     }
+    */
 }

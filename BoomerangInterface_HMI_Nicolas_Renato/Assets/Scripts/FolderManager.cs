@@ -20,6 +20,10 @@ public class FolderManager : MonoBehaviour
     private Vector3 offset; // difference between mouse and file position
     private Vector3 initialPosition; 
 
+    public string GetCurrentFolderName()
+    {
+        return currentFolderName;
+    }
 
     public void AddFolder(string folderName)
     {
@@ -352,7 +356,7 @@ public class FolderManager : MonoBehaviour
         RefreshCurrentFolderView();
     }
 
-    private void RefreshCurrentFolderView()
+    public void RefreshCurrentFolderView()
     {
         foreach (Transform child in contentTransform)
         {
@@ -394,6 +398,40 @@ public class FolderManager : MonoBehaviour
         AddFileToFolder("Games", "GameDesign.docx");
 
         DisplayFolderHierarchy();
+    }
+
+    public void RemoveFileFromAnyFolder(File fileToRemove)
+    {
+        bool removed = false;
+
+        foreach (var kvp in globalFolders)
+        {
+            Folder possibleOldFolder = kvp.Value;
+            if (possibleOldFolder.Files.Contains(fileToRemove))
+            {
+                possibleOldFolder.Files.Remove(fileToRemove);
+                Debug.Log($"[FolderManager] Removed '{fileToRemove.Name}' from '{kvp.Key}'.");
+                removed = true;
+                break;
+            }
+        }
+
+        if (!removed)
+        {
+            if (globalFiles.ContainsKey(fileToRemove.Name))
+            {
+                globalFiles.Remove(fileToRemove.Name);
+                Debug.Log($"[FolderManager] Removed '{fileToRemove.Name}' from globalFiles (root).");
+            }
+        }
+    }
+
+    public void AddFileToRoot(File file)
+    {
+        if (!globalFiles.ContainsKey(file.Name))
+            globalFiles.Add(file.Name, file);
+        else
+            globalFiles[file.Name] = file;
     }
 
     void Update()
