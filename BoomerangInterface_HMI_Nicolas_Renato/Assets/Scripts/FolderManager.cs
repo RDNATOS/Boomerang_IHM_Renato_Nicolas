@@ -323,13 +323,11 @@ public class FolderManager : MonoBehaviour
             return;
         }
 
-        if (!globalFolders.ContainsKey(currentFolderName))
+        if (!globalFolders.TryGetValue(currentFolderName, out Folder currentFolder))
         {
             Debug.LogError($"[FolderManager] Current folder '{currentFolderName}' not found in globalFolders!");
             return;
         }
-
-        Folder currentFolder = globalFolders[currentFolderName];
 
         foreach (File f in files)
         {

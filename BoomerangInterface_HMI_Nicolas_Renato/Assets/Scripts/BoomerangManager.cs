@@ -1,87 +1,41 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class BoomerangManager : MonoBehaviour, IDropHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class BoomerangManager : MonoBehaviour
 {
     public List<File> boomerangFiles = new List<File>();
 
     [SerializeField] private FolderManager folderManager;
     [SerializeField] private GameObject blueCircle;
 
-    private RectTransform rectTransform;
-    private Vector2 offset;
-    private Vector2 initialAnchoredPosition;
+    private Button boomerangButton;
 
-    void Awake()
+    private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        initialAnchoredPosition = rectTransform.anchoredPosition;
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-        DraggableFile draggableFile = eventData.pointerDrag?.GetComponent<DraggableFile>();
-        if (draggableFile != null && draggableFile.LinkedFile != null)
+        boomerangButton = GetComponent<Button>();
+        if (boomerangButton != null)
         {
-            File draggedFile = draggableFile.LinkedFile;
-            if (!boomerangFiles.Contains(draggedFile))
-            {
-                boomerangFiles.Add(draggedFile);
-                Debug.Log($"[Boomerang] Added file '{draggedFile.Name}' to boomerang.");
-            }
-
-            UpdateBlueCircle();
+            boomerangButton.onClick.AddListener(OnBoomerangClick);
         }
     }
 
-    public void OnBeginDrag(PointerEventData eventData)
+    private void Start()
     {
-        RectTransform parentRect = rectTransform.parent as RectTransform;
-        if (parentRect == null) return;
-
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            parentRect,
-            eventData.position,
-            eventData.pressEventCamera,
-            out Vector2 localPoint
-        );
-
-        offset = rectTransform.anchoredPosition - localPoint;
+        UpdateBoomerangUI();
     }
 
-    public void OnDrag(PointerEventData eventData)
+    public void AddFile(File file)
     {
-        RectTransform parentRect = rectTransform.parent as RectTransform;
-        if (parentRect == null) return;
-
-        if (RectTransformUtility.ScreenPointToLocalPointInRectangle(
-            parentRect,
-            eventData.position,
-            eventData.pressEventCamera,
-            out Vector2 localPoint
-        ))
+        if (!boomerangFiles.Contains(file))
         {
-            rectTransform.anchoredPosition = localPoint + offset;
+            boomerangFiles.Add(file);
+            Debug.Log($"[Boomerang] '{file.Name}' added to boomerang.");
+            UpdateBoomerangUI();
         }
     }
 
-    public void OnEndDrag(PointerEventData eventData)
-    {
-        rectTransform.anchoredPosition = initialAnchoredPosition;
-
-        GameObject hoveredObject = eventData.pointerCurrentRaycast.gameObject;
-        if (hoveredObject != null)
-        {
-            if (hoveredObject.CompareTag("ScrollView"))
-            {
-                MoveAllBoomerangFilesToCurrentFolder();
-            }
-        }
-    }
-
-    private void MoveAllBoomerangFilesToCurrentFolder()
+    private void OnBoomerangClick()
     {
         if (boomerangFiles.Count == 0)
         {
@@ -90,18 +44,19 @@ public class BoomerangManager : MonoBehaviour, IDropHandler, IBeginDragHandler, 
         }
 
         Debug.Log($"[Boomerang] Moving {boomerangFiles.Count} files to current folder...");
+
         folderManager.MoveMultipleFilesToCurrentFolder(boomerangFiles);
 
         boomerangFiles.Clear();
-        UpdateBlueCircle();
+        UpdateBoomerangUI();
     }
 
-    
-
-    private void UpdateBlueCircle()
+    private void UpdateBoomerangUI()
     {
         bool hasFiles = (boomerangFiles.Count > 0);
         if (blueCircle != null)
+        {
             blueCircle.SetActive(hasFiles);
+        }
     }
 }

@@ -1,41 +1,22 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DraggableFile : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class DraggableFile : MonoBehaviour, IPointerDownHandler
 {
     public File LinkedFile;
 
-    private RectTransform rectTransform;
-    private Vector3 offset;
-    private Vector3 initialPosition;
-    private bool isDragging = false;
-
-    void Start()
-    {
-        rectTransform = GetComponent<RectTransform>();
-    }
+    [SerializeField] private BoomerangManager boomerang; 
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        isDragging = true;
-        initialPosition = rectTransform.position;
-
-        Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint(eventData.position);
-        offset = initialPosition - mouseWorldPosition;
-        offset.z = 0;
-    }
-
-    public void OnDrag(PointerEventData eventData)
-    {
-        if (isDragging)
+        if (LinkedFile == null)
         {
-            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(eventData.position);
-            rectTransform.position = mouseWorldPos + offset;
+            Debug.LogWarning("No LinkedFile. Can't add to boomerang.");
+            return;
         }
-    }
 
-    public void OnPointerUp(PointerEventData eventData)
-    {
-        isDragging = false;
+        boomerang.AddFile(LinkedFile);
+
+        Destroy(gameObject);
     }
 }
